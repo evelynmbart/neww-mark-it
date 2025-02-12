@@ -40,12 +40,14 @@ function App() {
       url: formData.get("url") as string,
     };
     handleAddBookmark(bookmark);
+    setBookmark({ title: "", description: "", url: "" });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setBookmark((prevBookmark) => ({ ...prevBookmark, [name]: value }));
   };
+  console.log("bookmarks array", bookmarks, "one bookmark object", bookmark);
 
   return (
     <main className="main-container">
