@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 /*
@@ -20,12 +20,19 @@ type Bookmark = {
 };
 
 function App() {
-  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>(() => {
+    const saved = localStorage.getItem("bookmarks");
+    return saved ? JSON.parse(saved) : [];
+  });
   const [bookmark, setBookmark] = useState<Bookmark>({
     title: "",
     description: "",
     url: "",
   });
+
+  useEffect(() => {
+    localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+  }, [bookmarks]);
 
   const handleAddBookmark = (bookmark: Bookmark) => {
     setBookmarks([...bookmarks, bookmark]);
@@ -84,6 +91,19 @@ function App() {
           </div>
           <button type="submit">Add Bookmark</button>
         </form>
+      </section>
+      <section className="bookmark-list">
+        {bookmarks.map((bookmark) => (
+          <div key={bookmark.title} className="bookmark-card">
+            <h3>{bookmark.title}</h3>
+            <p>{bookmark.description}</p>
+            <a href={bookmark.url} target="_blank" rel="noopener noreferrer">
+              {bookmark.url}
+            </a>
+            <button>Delete</button>
+            <button>Edit</button>
+          </div>
+        ))}
       </section>
     </main>
   );
