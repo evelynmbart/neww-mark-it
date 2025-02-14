@@ -5,6 +5,13 @@
   text-align: center;
 }
 
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+}
+
 .create-bookmark {
   display: flex;
   justify-content: center;
@@ -41,4 +48,27 @@ h3 {
   flex-direction: column;
   align-items: start;
   gap: 10px;
+}
+
+.bookmark-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 50px;
+}
+
+.bookmark-card {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 10px;
+
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 1px rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+  .bookmark-list {
+    grid-template-columns: 1fr;
+  }
 }
