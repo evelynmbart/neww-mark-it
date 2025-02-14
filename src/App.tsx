@@ -13,6 +13,29 @@ import "./App.css";
   - actually i think it'd be cool in the end if you could rearrange them however you wanted!
 */
 
+const colors = [
+  "#FAD1D1",
+  "#F5B0CB",
+  "#F6C6A6",
+  "#F8D0A1",
+  "#F7E2A1",
+  "#D4E2B8",
+  "#A8D8A1",
+  "#A1E5D4",
+  "#A1D4E5",
+  "#A1C6E5",
+  "#D0A1E5",
+  "#E5A1D8",
+  "#F0A1C0",
+  "#F1B3B3",
+  "#E0B8B8",
+  "#C8E0E5",
+  "#B8C9E5",
+  "#B1D1E0",
+  "#B8E5D1",
+  "#C7E5D1",
+];
+
 type Bookmark = {
   title: string;
   description: string;
@@ -29,6 +52,7 @@ function App() {
     description: "",
     url: "",
   });
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
 
   useEffect(() => {
     localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
@@ -57,6 +81,10 @@ function App() {
 
   const handleDelete = (indexId: number): void => {
     setBookmarks(bookmarks.filter((_, index) => index !== indexId));
+  };
+
+  const randomColor = (): string => {
+    return colors[Math.floor(Math.random() * colors.length)];
   };
 
   console.log("bookmarks array", bookmarks, "one bookmark object", bookmark);
@@ -102,17 +130,72 @@ function App() {
         </form>
       </section>
       <section className="bookmark-list">
-        {bookmarks.map((bookmark, index) => (
-          <div key={bookmark.title} className="bookmark-card">
-            <h3>{bookmark.title}</h3>
-            <p>{bookmark.description}</p>
-            <a href={bookmark.url} target="_blank" rel="noopener noreferrer">
-              {bookmark.url}
-            </a>
-            <button onClick={() => handleDelete(index)}>Delete</button>
-            <button>Edit</button>
-          </div>
-        ))}
+        {!isEditMode ? (
+          <>
+            {bookmarks.map((bookmark, index) => (
+              <div
+                key={bookmark.title}
+                className="bookmark-card"
+                style={{ backgroundColor: randomColor() }}
+              >
+                <h3>{bookmark.title}</h3>
+                <p>{bookmark.description}</p>
+                <a
+                  href={bookmark.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {bookmark.url}
+                </a>
+                <button onClick={() => handleDelete(index)}>Delete</button>
+                <button onClick={() => setIsEditMode(!isEditMode)}>Edit</button>
+              </div>
+            ))}
+          </>
+        ) : (
+          <>
+            {bookmarks.map((bookmark, index) => (
+              <div
+                key={bookmark.title}
+                className="bookmark-card"
+                style={{ backgroundColor: randomColor() }}
+              >
+                <input
+                  type="text"
+                  value={bookmark.title}
+                  onChange={(e) => {
+                    e.target.focus();
+                    const newBookmarks = [...bookmarks];
+                    newBookmarks[index].title = e.target.value;
+                    setBookmarks(newBookmarks);
+                  }}
+                />
+                <input
+                  type="text"
+                  value={bookmark.description}
+                  onChange={(e) => {
+                    e.target.focus();
+                    const newBookmarks = [...bookmarks];
+                    newBookmarks[index].description = e.target.value;
+                    setBookmarks(newBookmarks);
+                  }}
+                />
+                <input
+                  type="url"
+                  value={bookmark.url}
+                  onChange={(e) => {
+                    e.target.focus();
+                    const newBookmarks = [...bookmarks];
+                    newBookmarks[index].url = e.target.value;
+                    setBookmarks(newBookmarks);
+                  }}
+                />
+                <button onClick={() => handleDelete(index)}>Delete</button>
+                <button onClick={() => setIsEditMode(!isEditMode)}>Save</button>
+              </div>
+            ))}
+          </>
+        )}
       </section>
     </main>
   );
