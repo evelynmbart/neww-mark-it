@@ -34,6 +34,11 @@ function App() {
     localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
   }, [bookmarks]);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setBookmark((prevBookmark) => ({ ...prevBookmark, [name]: value }));
+  };
+
   const handleAddBookmark = (bookmark: Bookmark) => {
     setBookmarks([...bookmarks, bookmark]);
   };
@@ -50,10 +55,10 @@ function App() {
     setBookmark({ title: "", description: "", url: "" });
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setBookmark((prevBookmark) => ({ ...prevBookmark, [name]: value }));
+  const handleDelete = (indexId: number): void => {
+    setBookmarks(bookmarks.filter((_, index) => index !== indexId));
   };
+
   console.log("bookmarks array", bookmarks, "one bookmark object", bookmark);
 
   return (
@@ -71,6 +76,7 @@ function App() {
               onChange={handleChange}
               name="title"
               value={bookmark.title}
+              autoComplete="off"
             />
             <label>Description (optional):</label>
             <input
@@ -79,7 +85,9 @@ function App() {
               onChange={handleChange}
               name="description"
               value={bookmark.description}
+              autoComplete="off"
             />
+
             <label>URL:</label>
             <input
               type="url"
@@ -87,20 +95,21 @@ function App() {
               onChange={handleChange}
               name="url"
               value={bookmark.url}
+              autoComplete="off"
             />
           </div>
           <button type="submit">Add Bookmark</button>
         </form>
       </section>
       <section className="bookmark-list">
-        {bookmarks.map((bookmark) => (
+        {bookmarks.map((bookmark, index) => (
           <div key={bookmark.title} className="bookmark-card">
             <h3>{bookmark.title}</h3>
             <p>{bookmark.description}</p>
             <a href={bookmark.url} target="_blank" rel="noopener noreferrer">
               {bookmark.url}
             </a>
-            <button>Delete</button>
+            <button onClick={() => handleDelete(index)}>Delete</button>
             <button>Edit</button>
           </div>
         ))}
