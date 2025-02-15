@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import { IoPencilOutline, IoTrashOutline } from "react-icons/io5";
 import "./App.css";
-
 /*
   TODO:
   - Add a search bar to search for bookmarks
@@ -92,7 +92,7 @@ function App() {
   return (
     <main className="main-container">
       {/* make this into an animation that fades into Welcome to MarkIt on loading from left to right. */}
-      <h1>MarkIt</h1>
+      <h1 className="markit-title">MarkIt</h1>
       <section className="create-bookmark">
         <form onSubmit={handleSubmit}>
           <h3>Create a New Bookmark</h3>
@@ -138,17 +138,33 @@ function App() {
                 className="bookmark-card"
                 style={{ backgroundColor: randomColor() }}
               >
-                <h3>{bookmark.title}</h3>
-                <p>{bookmark.description}</p>
+                <div className="actions">
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleDelete(index);
+                    }}
+                  >
+                    <IoTrashOutline />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsEditMode(!isEditMode);
+                    }}
+                  >
+                    <IoPencilOutline />
+                  </button>
+                </div>
                 <a
                   href={bookmark.url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  style={{ color: "inherit", textDecoration: "none" }}
                 >
-                  {bookmark.url}
+                  <h3>{bookmark.title}</h3>
+                  <p>{bookmark.description}</p>
                 </a>
-                <button onClick={() => handleDelete(index)}>Delete</button>
-                <button onClick={() => setIsEditMode(!isEditMode)}>Edit</button>
               </div>
             ))}
           </>
