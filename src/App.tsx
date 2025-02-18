@@ -90,8 +90,6 @@ function App() {
     return colors[Math.floor(Math.random() * colors.length)];
   };
 
-  console.log("bookmarks array", bookmarks, "one bookmark object", bookmark);
-
   return (
     <main className="main-container">
       {/* make this into an animation that fades into Welcome to MarkIt on loading from left to right. */}
@@ -135,7 +133,7 @@ function App() {
       <section className="bookmark-list">
         {bookmarks.map((bookmark, index) => (
           <div
-            key={`${bookmark.title}-${index}`}
+            key={index}
             className="bookmark-card"
             style={{ backgroundColor: bookmark.color }}
           >
