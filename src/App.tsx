@@ -52,7 +52,7 @@ function App() {
     description: "",
     url: "",
   });
-  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   useEffect(() => {
     localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
@@ -130,29 +130,58 @@ function App() {
         </form>
       </section>
       <section className="bookmark-list">
-        {!isEditMode ? (
-          <>
-            {bookmarks.map((bookmark, index) => (
-              <div
-                key={bookmark.title}
-                className="bookmark-card"
-                style={{ backgroundColor: randomColor() }}
-              >
-                <div className="actions">
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleDelete(index);
+        {bookmarks.map((bookmark, index) => (
+          <div
+            key={`${bookmark.title}-${index}`}
+            className="bookmark-card"
+            style={{ backgroundColor: randomColor() }}
+          >
+            {editingIndex === index ? (
+              <>
+                <div className="bookmark-input-container edit-mode">
+                  <input
+                    type="text"
+                    value={bookmark.title}
+                    onChange={(e) => {
+                      const newBookmarks = [...bookmarks];
+                      newBookmarks[index].title = e.target.value;
+                      setBookmarks(newBookmarks);
                     }}
-                  >
+                    placeholder="Title"
+                  />
+                  <input
+                    type="text"
+                    value={bookmark.description}
+                    onChange={(e) => {
+                      const newBookmarks = [...bookmarks];
+                      newBookmarks[index].description = e.target.value;
+                      setBookmarks(newBookmarks);
+                    }}
+                    placeholder="Description"
+                  />
+                  <input
+                    type="url"
+                    value={bookmark.url}
+                    onChange={(e) => {
+                      const newBookmarks = [...bookmarks];
+                      newBookmarks[index].url = e.target.value;
+                      setBookmarks(newBookmarks);
+                    }}
+                    placeholder="URL"
+                  />
+                  <div className="edit-actions">
+                    <button onClick={() => setEditingIndex(null)}>Save</button>
+                    <button onClick={() => handleDelete(index)}>Delete</button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="actions">
+                  <button onClick={() => handleDelete(index)}>
                     <IoTrashOutline />
                   </button>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setIsEditMode(!isEditMode);
-                    }}
-                  >
+                  <button onClick={() => setEditingIndex(index)}>
                     <IoPencilOutline />
                   </button>
                 </div>
@@ -165,53 +194,10 @@ function App() {
                   <h3>{bookmark.title}</h3>
                   <p>{bookmark.description}</p>
                 </a>
-              </div>
-            ))}
-          </>
-        ) : (
-          <>
-            {bookmarks.map((bookmark, index) => (
-              <div
-                key={bookmark.title}
-                className="bookmark-card"
-                style={{ backgroundColor: randomColor() }}
-              >
-                <input
-                  type="text"
-                  value={bookmark.title}
-                  onChange={(e) => {
-                    e.target.focus();
-                    const newBookmarks = [...bookmarks];
-                    newBookmarks[index].title = e.target.value;
-                    setBookmarks(newBookmarks);
-                  }}
-                />
-                <input
-                  type="text"
-                  value={bookmark.description}
-                  onChange={(e) => {
-                    e.target.focus();
-                    const newBookmarks = [...bookmarks];
-                    newBookmarks[index].description = e.target.value;
-                    setBookmarks(newBookmarks);
-                  }}
-                />
-                <input
-                  type="url"
-                  value={bookmark.url}
-                  onChange={(e) => {
-                    e.target.focus();
-                    const newBookmarks = [...bookmarks];
-                    newBookmarks[index].url = e.target.value;
-                    setBookmarks(newBookmarks);
-                  }}
-                />
-                <button onClick={() => handleDelete(index)}>Delete</button>
-                <button onClick={() => setIsEditMode(!isEditMode)}>Save</button>
-              </div>
-            ))}
-          </>
-        )}
+              </>
+            )}
+          </div>
+        ))}
       </section>
     </main>
   );
