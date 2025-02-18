@@ -40,6 +40,7 @@ type Bookmark = {
   title: string;
   description: string;
   url: string;
+  color: string;
 };
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
     title: "",
     description: "",
     url: "",
+    color: "",
   });
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
@@ -74,9 +76,10 @@ function App() {
       title: formData.get("title") as string,
       description: formData.get("description") as string,
       url: formData.get("url") as string,
+      color: randomColor(),
     };
     handleAddBookmark(bookmark);
-    setBookmark({ title: "", description: "", url: "" });
+    setBookmark({ title: "", description: "", url: "", color: "" });
   };
 
   const handleDelete = (indexId: number): void => {
@@ -134,7 +137,7 @@ function App() {
           <div
             key={`${bookmark.title}-${index}`}
             className="bookmark-card"
-            style={{ backgroundColor: randomColor() }}
+            style={{ backgroundColor: bookmark.color }}
           >
             {editingIndex === index ? (
               <>
@@ -144,7 +147,10 @@ function App() {
                     value={bookmark.title}
                     onChange={(e) => {
                       const newBookmarks = [...bookmarks];
-                      newBookmarks[index].title = e.target.value;
+                      newBookmarks[index] = {
+                        ...newBookmarks[index],
+                        title: e.target.value,
+                      };
                       setBookmarks(newBookmarks);
                     }}
                     placeholder="Title"
@@ -154,7 +160,10 @@ function App() {
                     value={bookmark.description}
                     onChange={(e) => {
                       const newBookmarks = [...bookmarks];
-                      newBookmarks[index].description = e.target.value;
+                      newBookmarks[index] = {
+                        ...newBookmarks[index],
+                        description: e.target.value,
+                      };
                       setBookmarks(newBookmarks);
                     }}
                     placeholder="Description"
@@ -164,7 +173,10 @@ function App() {
                     value={bookmark.url}
                     onChange={(e) => {
                       const newBookmarks = [...bookmarks];
-                      newBookmarks[index].url = e.target.value;
+                      newBookmarks[index] = {
+                        ...newBookmarks[index],
+                        url: e.target.value,
+                      };
                       setBookmarks(newBookmarks);
                     }}
                     placeholder="URL"
