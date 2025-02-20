@@ -14,7 +14,6 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradient-shift 8s ease infinite;
-  margin-bottom: 2rem;
   letter-spacing: -0.05em;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   transform: scale(1);
@@ -43,6 +42,30 @@
   align-items: center;
   gap: 3rem;
   padding: 0 1rem;
+}
+
+.header-btns {
+  display: flex;
+  gap: 30px;
+}
+
+.link-btn {
+  background: transparent;
+  border: 2px solid #646cff;
+  color: #646cff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.9rem;
+}
+
+.link-btn:hover {
+  background-color: #646cff;
+  color: white;
 }
 
 .create-bookmark {

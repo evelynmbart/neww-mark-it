@@ -44,6 +44,8 @@ type Bookmark = {
 };
 
 function App() {
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [isCreateMode, setIsCreateMode] = useState<boolean>(false);
   const [bookmarks, setBookmarks] = useState<Bookmark[]>(() => {
     const saved = localStorage.getItem("bookmarks");
     return saved ? JSON.parse(saved) : [];
@@ -54,7 +56,6 @@ function App() {
     url: "",
     color: "",
   });
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   useEffect(() => {
     localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
@@ -79,6 +80,7 @@ function App() {
       color: randomColor(),
     };
     handleAddBookmark(bookmark);
+    setIsCreateMode(false);
     setBookmark({ title: "", description: "", url: "", color: "" });
   };
 
@@ -94,121 +96,136 @@ function App() {
     <main className="main-container">
       {/* make this into an animation that fades into Welcome to MarkIt on loading from left to right. */}
       <h1 className="markit-title">MarkIt</h1>
-      <section className="create-bookmark">
-        <form onSubmit={handleSubmit}>
-          <h3>Create a New Bookmark</h3>
-          <div className="bookmark-input-container">
-            <label>Title:</label>
-            <input
-              type="text"
-              placeholder="Enter bookmark title"
-              onChange={handleChange}
-              name="title"
-              value={bookmark.title}
-              autoComplete="off"
-            />
-            <label>Description (optional):</label>
-            <input
-              type="text"
-              placeholder="Enter bookmark description"
-              onChange={handleChange}
-              name="description"
-              value={bookmark.description}
-              autoComplete="off"
-            />
+      <div className="header-btns">
+        <button className="link-btn" onClick={() => setIsCreateMode(false)}>
+          Bookmarks
+        </button>
+        <button className="link-btn" onClick={() => setIsCreateMode(true)}>
+          Create New
+        </button>
+      </div>
+      {isCreateMode ? (
+        <section className="create-bookmark">
+          <form onSubmit={handleSubmit}>
+            <h3>Create a New Bookmark</h3>
+            <div className="bookmark-input-container">
+              <label>Title:</label>
+              <input
+                type="text"
+                placeholder="Enter bookmark title"
+                onChange={handleChange}
+                name="title"
+                value={bookmark.title}
+                autoComplete="off"
+              />
+              <label>Description (optional):</label>
+              <input
+                type="text"
+                placeholder="Enter bookmark description"
+                onChange={handleChange}
+                name="description"
+                value={bookmark.description}
+                autoComplete="off"
+              />
 
-            <label>URL:</label>
-            <input
-              type="url"
-              placeholder="Enter bookmark URL"
-              onChange={handleChange}
-              name="url"
-              value={bookmark.url}
-              autoComplete="off"
-            />
-          </div>
-          <button type="submit">Add Bookmark</button>
-        </form>
-      </section>
-      <section className="bookmark-list">
-        {bookmarks.map((bookmark, index) => (
-          <div
-            key={index}
-            className="bookmark-card"
-            style={{ backgroundColor: bookmark.color }}
-          >
-            {editingIndex === index ? (
-              <>
-                <div className="bookmark-input-container edit-mode">
-                  <input
-                    type="text"
-                    value={bookmark.title}
-                    onChange={(e) => {
-                      const newBookmarks = [...bookmarks];
-                      newBookmarks[index] = {
-                        ...newBookmarks[index],
-                        title: e.target.value,
-                      };
-                      setBookmarks(newBookmarks);
-                    }}
-                    placeholder="Title"
-                  />
-                  <input
-                    type="text"
-                    value={bookmark.description}
-                    onChange={(e) => {
-                      const newBookmarks = [...bookmarks];
-                      newBookmarks[index] = {
-                        ...newBookmarks[index],
-                        description: e.target.value,
-                      };
-                      setBookmarks(newBookmarks);
-                    }}
-                    placeholder="Description"
-                  />
-                  <input
-                    type="url"
-                    value={bookmark.url}
-                    onChange={(e) => {
-                      const newBookmarks = [...bookmarks];
-                      newBookmarks[index] = {
-                        ...newBookmarks[index],
-                        url: e.target.value,
-                      };
-                      setBookmarks(newBookmarks);
-                    }}
-                    placeholder="URL"
-                  />
-                  <div className="edit-actions">
-                    <button onClick={() => setEditingIndex(null)}>Save</button>
-                    <button onClick={() => handleDelete(index)}>Delete</button>
+              <label>URL:</label>
+              <input
+                type="url"
+                placeholder="Enter bookmark URL"
+                onChange={handleChange}
+                name="url"
+                value={bookmark.url}
+                autoComplete="off"
+              />
+            </div>
+            <button type="submit">Add Bookmark</button>
+          </form>
+        </section>
+      ) : (
+        <section className="bookmark-list">
+          {bookmarks.map((bookmark, index) => (
+            <div
+              key={index}
+              className="bookmark-card"
+              style={{ backgroundColor: bookmark.color }}
+            >
+              {editingIndex === index ? (
+                <>
+                  <div className="bookmark-input-container edit-mode">
+                    <input
+                      type="text"
+                      value={bookmark.title}
+                      onChange={(e) => {
+                        const newBookmarks = [...bookmarks];
+                        newBookmarks[index] = {
+                          ...newBookmarks[index],
+                          title: e.target.value,
+                        };
+                        setBookmarks(newBookmarks);
+                      }}
+                      placeholder="Title"
+                    />
+                    <input
+                      type="text"
+                      value={bookmark.description}
+                      onChange={(e) => {
+                        const newBookmarks = [...bookmarks];
+                        newBookmarks[index] = {
+                          ...newBookmarks[index],
+                          description: e.target.value,
+                        };
+                        setBookmarks(newBookmarks);
+                      }}
+                      placeholder="Description"
+                    />
+                    <input
+                      type="url"
+                      value={bookmark.url}
+                      onChange={(e) => {
+                        const newBookmarks = [...bookmarks];
+                        newBookmarks[index] = {
+                          ...newBookmarks[index],
+                          url: e.target.value,
+                        };
+                        setBookmarks(newBookmarks);
+                      }}
+                      placeholder="URL"
+                    />
+                    <div className="edit-actions">
+                      <button onClick={() => setEditingIndex(null)}>
+                        Save
+                      </button>
+                      <button onClick={() => handleDelete(index)}>
+                        Delete
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="actions">
-                  <button onClick={() => handleDelete(index)}>
-                    <IoTrashOutline />
-                  </button>
-                  <button onClick={() => setEditingIndex(index)}>
-                    <IoPencilOutline />
-                  </button>
-                </div>
-                <a
-                  href={bookmark.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: "inherit", textDecoration: "none" }}
-                >
-                  <h3>{bookmark.title}</h3>
-                  <p>{bookmark.description}</p>
-                </a>
-              </>
-            )}
-          </div>
-        ))}
-      </section>
+                </>
+              ) : (
+                <>
+                  <div className="actions">
+                    <button onClick={() => handleDelete(index)}>
+                      <IoTrashOutline />
+                    </button>
+                    <button onClick={() => setEditingIndex(index)}>
+                      <IoPencilOutline />
+                    </button>
+                  </div>
+                  <a
+                    href={bookmark.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: "inherit", textDecoration: "none" }}
+                  >
+                    <h3>{bookmark.title}</h3>
+                    <p>{bookmark.description}</p>
+                  </a>
+                </>
+              )}
+            </div>
+          ))}
+        </section>
+      )}
     </main>
   );
 }
