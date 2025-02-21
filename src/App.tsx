@@ -106,7 +106,10 @@ function App() {
       </div>
       {isCreateMode ? (
         <section className="create-bookmark">
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={handleSubmit}
+            style={{ backgroundColor: randomColor() }}
+          >
             <h3>Create a New Bookmark</h3>
             <div className="bookmark-input-container">
               <label>Title:</label>
