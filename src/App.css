@@ -8,7 +8,8 @@
 .markit-title {
   font-size: 4rem;
   font-weight: 800;
-  background: linear-gradient(45deg, #646cff, #ff6b6b, #4ecdc4, #646cff);
+
+  background: linear-gradient(45deg, #0066cc, #ff8533, #00cc99, #0066cc);
   background-size: 300% 300%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -51,8 +52,8 @@
 
 .link-btn {
   background: transparent;
-  border: 2px solid #646cff;
-  color: #646cff;
+  border: 2px solid #0066cc;
+  color: #0066cc;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   font-weight: 600;
@@ -64,25 +65,27 @@
 }
 
 .link-btn:hover {
-  background-color: #646cff;
+  background-color: #0066cc;
   color: white;
 }
 
 .create-bookmark {
   width: 100%;
   max-width: 500px;
+  color: black;
+  opacity: 0.9;
 }
 
 .create-bookmark form {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  background-color: rgba(44, 47, 87, 0.1);
+
   padding: 2rem;
   border-radius: 16px;
   gap: 1.5rem;
   backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 input {
@@ -90,21 +93,22 @@ input {
   font-size: 16px;
   border-radius: 8px;
   padding: 0.75rem 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background-color: rgba(255, 255, 255, 0.05);
-  color: inherit;
+  color: black;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.9);
+
   transition: all 0.2s ease;
 }
 
 input:focus {
   outline: none;
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+  border-color: #4d9de0;
+  box-shadow: 0 0 0 2px rgba(77, 157, 224, 0.3);
 }
 
 .create-bookmark h3 {
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
   margin: 0;
   color: inherit;
 }
@@ -118,24 +122,26 @@ input:focus {
 }
 
 .bookmark-input-container label {
-  font-size: 0.9rem;
-  opacity: 0.8;
+  font-size: 0.95rem;
+  font-weight: 500;
+  opacity: 0.9;
 }
 
 button {
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
   border: none;
-  background-color: #648dff;
+  background-color: #2d7dd2;
   color: white;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 button:hover {
-  background-color: #747bff;
+  background-color: #1b5aa1;
   transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .bookmark-list {
@@ -177,7 +183,7 @@ button:hover {
 
 .bookmark-card h3 {
   font-size: 2.4rem;
-  margin: 25px 0 0 0;
+  margin: 10px 0 0 0;
   font-weight: 600;
 }
 
@@ -198,12 +204,12 @@ button:hover {
 .bookmark-card .actions button {
   padding: 0.5rem;
   border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(0, 0, 0, 0.1);
   color: #1a1a1a;
 }
 
 .bookmark-card .actions button:hover {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .bookmark-input-container.edit-mode {
