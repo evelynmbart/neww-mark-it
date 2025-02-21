@@ -19,6 +19,7 @@
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   transform: scale(1);
   transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
 .markit-title:hover {
@@ -111,6 +112,7 @@ input:focus {
   font-weight: 700;
   margin: 0;
   color: inherit;
+  font-family: "Noto Sans JP", sans-serif;
 }
 
 .bookmark-input-container {
@@ -136,6 +138,8 @@ button {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 1.2rem;
 }
 
 button:hover {

@@ -95,7 +95,9 @@ function App() {
   return (
     <main className="main-container">
       {/* make this into an animation that fades into Welcome to MarkIt on loading from left to right. */}
-      <h1 className="markit-title">MarkIt</h1>
+      <h1 className="markit-title" onClick={() => setIsCreateMode(false)}>
+        MarkIt
+      </h1>
       <div className="header-btns">
         <button className="link-btn" onClick={() => setIsCreateMode(false)}>
           Bookmarks

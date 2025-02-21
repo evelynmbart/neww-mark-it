@@ -18,6 +18,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background: linear-gradient(145deg, #13141f 0%, #1a1b2e 100%);
+  font-family: "Noto Sans JP", sans-serif;
 }
 
 h1 {
